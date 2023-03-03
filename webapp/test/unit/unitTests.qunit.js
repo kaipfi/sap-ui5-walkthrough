@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* global Unit */
 
 QUnit.config.autostart = false
 
