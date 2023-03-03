@@ -1,12 +1,13 @@
+/* eslint-disable no-undef */
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+  'sap/ui/core/mvc/Controller'
 ], function (Controller) {
-    "use strict"
-    return Controller.extend("sap.ui.demo.walkthrough.App", {
-        
-        onOpenDialog: function () {
-            this.getOwnerComponent().openHelloDialog();
-        }
+  'use strict'
+  return Controller.extend('sap.ui.demo.walkthrough.App', {
 
-    });
-});
+    onOpenDialog: function () {
+      this.getOwnerComponent().openHelloDialog()
+    }
+
+  })
+})
