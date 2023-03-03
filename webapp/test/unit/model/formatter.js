@@ -1,50 +1,48 @@
-/*global QUnit*/
+/* eslint-disable no-undef */
+/* global QUnit */
 
 sap.ui.define([
-	"sap/ui/demo/walkthrough/model/formatter",
-	"sap/ui/model/resource/ResourceModel"
+  'sap/ui/demo/walkthrough/model/formatter',
+  'sap/ui/model/resource/ResourceModel'
 ], function (formatter, ResourceModel) {
-	"use strict";
+  'use strict'
 
-	QUnit.module("Formatting functions", {
-        // before each test do:
-		beforeEach: function () {
-			this._oResourceModel = new ResourceModel({  // Model implementation for resource bundles
-				bundleUrl: sap.ui.require.toUrl("sap/ui/demo/walkthrough") + "/i18n/i18n.properties"
-			});
-		},
-        // after each test do
-		afterEach: function () {
-			this._oResourceModel.destroy();
-		}
-	});
+  QUnit.module('Formatting functions', {
+    // before each test do:
+    beforeEach: function () {
+      this._oResourceModel = new ResourceModel({ // Model implementation for resource bundles
+        bundleUrl: sap.ui.require.toUrl('sap/ui/demo/walkthrough') + '/i18n/i18n.properties'
+      })
+    },
+    // after each test do
+    afterEach: function () {
+      this._oResourceModel.destroy()
+    }
+  })
 
+  QUnit.test('Should return the translated texts', function (assert) {
+    // Arrange
+    // this.stub() does not support chaining and always returns the right data
+    // even if a wrong or empty parameter is passed.
+    const oModel = this.stub()
+    oModel.withArgs('i18n').returns(this._oResourceModel)
+    const oViewStub = {
+      getModel: oModel
+    }
+    const oControllerStub = {
+      getView: this.stub().returns(oViewStub)
+    }
 
-	QUnit.test("Should return the translated texts", function (assert) {
+    // System under test
+    const fnIsolatedFormatter = formatter.statusText.bind(oControllerStub)
 
-		// Arrange
-		// this.stub() does not support chaining and always returns the right data
-		// even if a wrong or empty parameter is passed.
-		var oModel = this.stub();
-		oModel.withArgs("i18n").returns(this._oResourceModel);
-		var oViewStub = {
-			getModel: oModel
-		};
-		var oControllerStub = {
-			getView: this.stub().returns(oViewStub)
-		};
+    // Assert
+    assert.strictEqual(fnIsolatedFormatter('A'), 'New', 'The long text for status A is correct')
 
-		// System under test
-		var fnIsolatedFormatter = formatter.statusText.bind(oControllerStub);
+    assert.strictEqual(fnIsolatedFormatter('B'), 'In Progress', 'The long text for status B is correct')
 
-		// Assert
-		assert.strictEqual(fnIsolatedFormatter("A"), "New", "The long text for status A is correct");
+    assert.strictEqual(fnIsolatedFormatter('C'), 'Done', 'The long text for status C is correct')
 
-		assert.strictEqual(fnIsolatedFormatter("B"), "In Progress", "The long text for status B is correct");
-
-		assert.strictEqual(fnIsolatedFormatter("C"), "Done", "The long text for status C is correct");
-
-		assert.strictEqual(fnIsolatedFormatter("Foo"), "Foo", "The long text for status Foo is correct");
-	});
-
-});
+    assert.strictEqual(fnIsolatedFormatter('Foo'), 'Foo', 'The long text for status Foo is correct')
+  })
+})
