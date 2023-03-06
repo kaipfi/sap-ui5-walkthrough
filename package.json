@@ -15,5 +15,9 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1"
+  },
+  "dependencies": {
+    "@sap/approuter": "^14.0.0",
+    "@sap/html5-repo-mock": "^2.1.1"
   }
 }
